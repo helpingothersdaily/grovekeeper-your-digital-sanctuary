@@ -61,7 +61,8 @@ const FirstGrove = () => {
 
   const handleChoice = (mode: string) => {
     setChosen(mode);
-    setTimeout(() => navigate(`/grove?mode=${mode}`), 900);
+    const route = mode === "guided" ? "/guided-tending/arrival" : "/quiet-tending/arrival";
+    setTimeout(() => navigate(route), 900);
   };
 
   return (
