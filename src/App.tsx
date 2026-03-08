@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import FirstGrove from "./pages/FirstGrove";
 import HowItTends from "./pages/HowItTends";
 import GuidedArrival from "./pages/GuidedArrival";
+import GuidedTendingSession from "./pages/GuidedTendingSession";
 import QuietArrival from "./pages/QuietArrival";
 import NotFound from "./pages/NotFound";
 
