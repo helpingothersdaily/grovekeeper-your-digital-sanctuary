@@ -23,7 +23,7 @@ const CTASection = () => {
             No shame. No pressure. Just a quiet place where your digital life 
             can finally breathe. Begin tending whenever you're ready.
           </p>
-          <button className="bg-primary text-primary-foreground font-body px-10 py-4 rounded-xl text-lg hover:opacity-90 transition-all shadow-lg shadow-primary/20">
+          <button onClick={() => navigate("/first-grove")} className="bg-primary text-primary-foreground font-body px-10 py-4 rounded-xl text-lg hover:opacity-90 transition-all shadow-lg shadow-primary/20">
             Begin Tending
           </button>
           <p className="font-body text-sm text-muted-foreground mt-6">
