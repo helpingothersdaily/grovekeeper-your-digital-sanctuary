@@ -104,7 +104,7 @@ const GuidedArrival = () => {
 
         {/* Gentle continue */}
         <motion.button
-          onClick={() => navigate("/guided-tending")}
+          onClick={() => navigate("/guided-tending/session")}
           className="font-body text-sm text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
