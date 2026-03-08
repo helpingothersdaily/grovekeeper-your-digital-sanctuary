@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ["Cormorant Garamond", "Georgia", "serif"],
+        body: ["Nunito", "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,6 +51,16 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        grove: {
+          moss: "hsl(var(--grove-moss))",
+          sage: "hsl(var(--grove-sage))",
+          amber: "hsl(var(--grove-amber))",
+          cream: "hsl(var(--grove-cream))",
+          bark: "hsl(var(--grove-bark))",
+          clearing: "hsl(var(--grove-clearing))",
+          mist: "hsl(var(--grove-mist))",
+          golden: "hsl(var(--grove-golden))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -65,25 +79,32 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "float-gentle": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        "sway": {
+          "0%, 100%": { transform: "rotate(-1deg)" },
+          "50%": { transform: "rotate(1deg)" },
+        },
+        "breathe": {
+          "0%, 100%": { opacity: "0.7" },
+          "50%": { opacity: "1" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float-gentle": "float-gentle 6s ease-in-out infinite",
+        "sway": "sway 8s ease-in-out infinite",
+        "breathe": "breathe 4s ease-in-out infinite",
       },
     },
   },
