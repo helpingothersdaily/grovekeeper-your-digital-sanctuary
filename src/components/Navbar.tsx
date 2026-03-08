@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import groveLogo from "@/assets/grove-logo.png";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <motion.nav
       initial={{ opacity: 0, y: -10 }}
