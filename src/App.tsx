@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import FirstGrove from "./pages/FirstGrove";
 import HowItTends from "./pages/HowItTends";
+import GuidedArrival from "./pages/GuidedArrival";
+import QuietArrival from "./pages/QuietArrival";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
