@@ -145,7 +145,7 @@ const HowItTends = () => {
         <div className="max-w-2xl w-full">
           <div className="max-w-md mb-12">
             <h2 className="font-display text-2xl md:text-3xl font-medium text-foreground mb-4">
-              First, it watches.
+              First, it observes.
             </h2>
             <p className="font-body text-muted-foreground leading-relaxed">
               Photos, notes, documents—each resting where they landed. GroveKeeper notices connections between them but changes nothing. It observes the shape of your days without imposing structure.
