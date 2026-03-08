@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import FirstGrove from "./pages/FirstGrove";
 import HowItTends from "./pages/HowItTends";
 import GuidedArrival from "./pages/GuidedArrival";
+import GuidedTendingSession from "./pages/GuidedTendingSession";
 import QuietArrival from "./pages/QuietArrival";
 import NotFound from "./pages/NotFound";
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/first-grove" element={<FirstGrove />} />
           <Route path="/how-it-tends" element={<HowItTends />} />
           <Route path="/guided-tending/arrival" element={<GuidedArrival />} />
+          <Route path="/guided-tending/session" element={<GuidedTendingSession />} />
           <Route path="/quiet-tending/arrival" element={<QuietArrival />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
