@@ -24,6 +24,7 @@ const App = () => (
           <Route path="/first-grove" element={<FirstGrove />} />
           <Route path="/how-it-tends" element={<HowItTends />} />
           <Route path="/guided-tending/arrival" element={<GuidedArrival />} />
+          <Route path="/guided-tending/session" element={<GuidedTendingSession />} />
           <Route path="/quiet-tending/arrival" element={<QuietArrival />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
