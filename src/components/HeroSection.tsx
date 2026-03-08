@@ -45,7 +45,7 @@ const HeroSection = () => {
            <button onClick={() => navigate("/first-grove")} className="bg-primary text-primary-foreground font-body px-8 py-4 rounded-xl text-base hover:opacity-90 transition-all shadow-lg shadow-primary/20">
              Enter Your Grove
            </button>
-          <button className="border border-border text-foreground font-body px-8 py-4 rounded-xl text-base hover:bg-card transition-all">
+          <button onClick={() => navigate("/how-it-tends")} className="border border-border text-foreground font-body px-8 py-4 rounded-xl text-base hover:bg-card transition-all">
             See How It Works
           </button>
         </motion.div>
