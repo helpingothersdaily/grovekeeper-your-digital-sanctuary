@@ -1,122 +1,116 @@
-import { motion } from "framer-motion";
-import { MessageCircle, GitBranch } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 
-const BranchReply = () => {
+export const dispatchBranchEngaged = (branchId: string, originRect: DOMRect) => {
+  window.dispatchEvent(new CustomEvent('BranchEngaged', {
+    detail: { branchId, originRect }
+  }));
+};
+
+interface BranchState {
+  branchId: string;
+  originRect: DOMRect;
+  targetPos: { x: number, y: number };
+}
+
+export const BranchReply = () => {
+  const [activeBranch, setActiveBranch] = useState<BranchState | null>(null);
+  const [showBubble, setShowBubble] = useState(false);
+
+  useEffect(() => {
+    const handleEngaged = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const { branchId, originRect } = customEvent.detail;
+      
+      // Target center of screen for the bubble
+      const targetX = window.innerWidth / 2;
+      const targetY = window.innerHeight / 2;
+      
+      setActiveBranch({
+        branchId,
+        originRect,
+        targetPos: { x: targetX, y: targetY }
+      });
+      setShowBubble(false);
+
+      setTimeout(() => {
+        setShowBubble(true);
+        window.dispatchEvent(new CustomEvent('BuddingTriggered', {
+          detail: { branchId }
+        }));
+      }, 600);
+    };
+
+    const handleReleased = () => {
+      setActiveBranch(null);
+      setShowBubble(false);
+    };
+
+    window.addEventListener('BranchEngaged', handleEngaged);
+    window.addEventListener('BranchReleased', handleReleased);
+
+    return () => {
+      window.removeEventListener('BranchEngaged', handleEngaged);
+      window.removeEventListener('BranchReleased', handleReleased);
+    };
+  }, []);
+
+  const handleClose = () => {
+    window.dispatchEvent(new CustomEvent('BranchReleased'));
+  };
+
+  if (!activeBranch) return null;
+
+  const { originRect, targetPos } = activeBranch;
+  
+  const startX = originRect.left + originRect.width / 2;
+  const startY = originRect.top + originRect.height / 2;
+  
+  const pathD = `M ${startX},${startY} C ${startX},${startY + 120} ${targetPos.x},${targetPos.y - 120} ${targetPos.x},${targetPos.y}`;
+
   return (
-    <section id="branchreply" className="py-28 bg-grove-clearing">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+    <div className="fixed inset-0 pointer-events-none z-50">
+      <svg className="absolute inset-0 w-full h-full pointer-events-none">
+        <motion.path
+          d={pathD}
+          stroke="hsl(var(--grove-sage))"
+          strokeWidth="2"
+          fill="none"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+        />
+      </svg>
+
+      <AnimatePresence>
+        {showBubble && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 120, damping: 14 }}
+            className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto"
+            style={{ left: targetPos.x, top: targetPos.y }}
           >
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-body text-xs uppercase tracking-widest px-4 py-2 rounded-full mb-6">
-              <GitBranch className="w-3.5 h-3.5" />
-              Interaction Innovation
-            </div>
-            <h2 className="font-display text-4xl md:text-5xl font-medium text-foreground mb-6 leading-tight">
-              BranchReply
-            </h2>
-            <p className="font-body text-muted-foreground text-lg leading-relaxed mb-8">
-              Thoughts don't move in straight lines—especially for ADHD minds. BranchReply 
-              is a floating reply mechanism that lets you respond to any item, note, or message 
-              in context. Conversations grow like branches: diverging, reconnecting, and 
-              forming natural patterns of thought.
-            </p>
-            <div className="space-y-4">
-              {[
-                { title: "Reply in context", desc: "Attach a thought to any item, anywhere in your grove" },
-                { title: "Natural branching", desc: "Follow tangents without losing the original thread" },
-                { title: "Reconnection", desc: "Branches can merge when ideas converge again" },
-              ].map((item) => (
-                <div key={item.title} className="flex gap-4 items-start">
-                  <div className="w-8 h-8 rounded-lg bg-grove-sage/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <MessageCircle className="w-4 h-4 text-grove-sage" />
-                  </div>
-                  <div>
-                    <p className="font-body font-semibold text-foreground text-sm">{item.title}</p>
-                    <p className="font-body text-muted-foreground text-sm">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
+            <div className="grove-glass rounded-[3rem] p-6 shadow-xl flex items-start gap-4 min-w-[320px] border border-white/20 bg-white/40 backdrop-blur-md">
+              <textarea
+                placeholder="a new branch..."
+                className="w-full bg-transparent border-none outline-none resize-none font-display italic text-[hsl(var(--grove-moss))] placeholder:text-[hsl(var(--grove-moss))]/50 min-h-[80px] text-lg"
+                autoFocus
+              />
+              <button
+                onClick={handleClose}
+                className="text-[hsl(var(--grove-amber))] hover:opacity-80 transition-opacity p-2 rounded-full hover:bg-black/5 flex-shrink-0"
+                aria-label="Close branch"
+              >
+                <X size={24} />
+              </button>
             </div>
           </motion.div>
-
-          {/* Interactive BranchReply visualization */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="bg-card rounded-3xl p-8 border border-border/50 shadow-xl">
-              {/* Main thread */}
-              <div className="space-y-4">
-                <div className="bg-background rounded-2xl p-4 border border-border/50">
-                  <p className="font-body text-sm text-muted-foreground mb-1">Trip to Portland — Sept 2025</p>
-                  <p className="font-body text-foreground">These photos from the coast remind me of the cabin we stayed in…</p>
-                </div>
-
-                {/* Branch line */}
-                <div className="flex items-stretch gap-4 ml-6">
-                  <div className="w-px bg-grove-sage/30 relative">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-grove-sage/50" />
-                  </div>
-                  <motion.div
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
-                    className="bg-grove-sage/5 rounded-2xl p-4 border border-grove-sage/20 flex-1"
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <GitBranch className="w-3 h-3 text-grove-sage" />
-                      <p className="font-body text-xs text-grove-sage">Branch reply</p>
-                    </div>
-                    <p className="font-body text-foreground text-sm">Oh! That cabin—I wrote a journal entry about it. GroveKeeper found it.</p>
-                  </motion.div>
-                </div>
-
-                {/* Second branch */}
-                <div className="flex items-stretch gap-4 ml-12">
-                  <div className="w-px bg-grove-amber/30 relative">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-grove-amber/50" />
-                  </div>
-                  <motion.div
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.9, duration: 0.5 }}
-                    className="bg-grove-amber/5 rounded-2xl p-4 border border-grove-amber/20 flex-1"
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <GitBranch className="w-3 h-3 text-grove-amber" />
-                      <p className="font-body text-xs text-grove-amber">Branch reply</p>
-                    </div>
-                    <p className="font-body text-foreground text-sm">I want to go back. Adding this to my "places to return" cluster.</p>
-                  </motion.div>
-                </div>
-
-                {/* Floating reply button */}
-                <motion.div
-                  animate={{ y: [0, -4, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="flex justify-center pt-2"
-                >
-                  <div className="bg-primary text-primary-foreground font-body text-xs px-4 py-2 rounded-full flex items-center gap-2 shadow-lg shadow-primary/20">
-                    <MessageCircle className="w-3.5 h-3.5" />
-                    Reply to anything…
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 
