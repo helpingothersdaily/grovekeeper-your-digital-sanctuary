@@ -9,6 +9,7 @@ import HowItTends from "./pages/HowItTends";
 import GuidedArrival from "./pages/GuidedArrival";
 import GuidedTendingSession from "./pages/GuidedTendingSession";
 import QuietArrival from "./pages/QuietArrival";
+import StewardshipOnboarding from "./pages/StewardshipOnboarding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
