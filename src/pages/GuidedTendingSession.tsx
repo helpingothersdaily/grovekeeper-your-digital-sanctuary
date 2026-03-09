@@ -173,6 +173,8 @@ const GuidedTendingSession = () => {
           </div>
         ))}
       </div>
+
+      <BranchReply />
     </div>
   );
 };
