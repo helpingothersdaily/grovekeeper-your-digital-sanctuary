@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 const FirstGrove = () => {
   const navigate = useNavigate();
 
-  const handleTend = () => {
-    navigate("/guided-tending/arrival");
-  };
 
   return (
     <div className="min-h-screen bg-grove-mist flex items-center justify-center px-6">
