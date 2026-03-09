@@ -1,117 +1,127 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import groveLogo from "@/assets/grove-logo.png";
-
-const FloatingMote = ({
-  delay,
-  x,
-  y,
-  size,
-  opacity,
-}: {
-  delay: number;
-  x: string;
-  y: string;
-  size: number;
-  opacity: number;
-}) => (
-  <motion.div
-    className="absolute rounded-full bg-grove-amber/[var(--mote-opacity)]"
-    style={
-      {
-        left: x,
-        top: y,
-        width: size,
-        height: size,
-        "--mote-opacity": opacity,
-      } as React.CSSProperties
-    }
-    animate={{
-      y: [0, -6, 0],
-      opacity: [opacity, opacity * 1.3, opacity],
-    }}
-    transition={{
-      duration: 9 + delay * 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-      delay,
-    }}
-  />
-);
 
 const QuietArrival = () => {
   const navigate = useNavigate();
+  const [settling, setSettling] = useState(false);
+
+  useEffect(() => {
+    if (settling) {
+      const timer = setTimeout(() => navigate("/guided-tending/session"), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [settling, navigate]);
+
+  const handleHabitat = () => setSettling(true);
 
   return (
-    <div className="min-h-screen bg-grove-clearing flex items-center justify-center relative overflow-hidden">
-      {/* Atmosphere */}
+    <div className="min-h-screen bg-grove-clearing flex items-center justify-center px-6">
       <motion.div
-        className="absolute inset-0 pointer-events-none"
-        animate={{
-          background: [
-            "radial-gradient(ellipse 500px 350px at 50% 45%, hsl(var(--grove-golden) / 0.05), transparent)",
-            "radial-gradient(ellipse 500px 350px at 55% 50%, hsl(var(--grove-golden) / 0.07), transparent)",
-            "radial-gradient(ellipse 500px 350px at 50% 45%, hsl(var(--grove-golden) / 0.05), transparent)",
-          ],
-        }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <FloatingMote delay={0} x="15%" y="30%" size={50} opacity={0.04} />
-      <FloatingMote delay={2} x="72%" y="20%" size={40} opacity={0.05} />
-      <FloatingMote delay={3.5} x="80%" y="60%" size={56} opacity={0.03} />
-      <FloatingMote delay={1} x="30%" y="75%" size={32} opacity={0.04} />
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2.2, ease: "easeOut" }}
-        className="relative z-10 max-w-md w-full mx-6 text-center"
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="grove-glass w-full max-w-lg py-16 px-12 text-center"
+        style={{ borderRadius: "3rem" }}
       >
-        {/* Logo */}
-        <motion.img
-          src={groveLogo}
-          alt="GroveKeeper"
-          className="w-10 h-10 mx-auto mb-14 opacity-60"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 0.6, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-        />
-
-        {/* Acknowledgment */}
-        <motion.h1
-          className="font-display text-3xl md:text-[2.5rem] font-medium text-foreground leading-snug mb-6"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
+        {/* Posture label */}
+        <motion.p
+          className="font-body text-[11px] tracking-wide mb-8"
+          style={{ color: "hsl(var(--grove-sage))" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
         >
-          Your grove will be tended quietly.
+          Quiet Tending
+        </motion.p>
+
+        {/* Heading */}
+        <motion.h1
+          className="font-display text-3xl md:text-4xl font-medium italic text-foreground mb-5"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+        >
+          Rest. I'll tend while you're away.
         </motion.h1>
 
-        {/* Reassurance */}
-        <motion.div
-          className="space-y-3 mb-20"
+        {/* Subtext */}
+        <motion.p
+          className="font-body text-muted-foreground text-base leading-[1.8] mb-12 max-w-sm mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
+          transition={{ delay: 0.7, duration: 0.8 }}
         >
-          <p className="font-body text-muted-foreground text-base leading-relaxed">
-            Nothing irreversible will happen.
-          </p>
-          <p className="font-body text-muted-foreground/60 text-base leading-relaxed">
-            You can return whenever you're ready.
-          </p>
-        </motion.div>
+          GroveKeeper will work in the background — grouping, noticing, never
+          disturbing. You'll find a Field Note waiting when you return.
+        </motion.p>
 
-        {/* Gentle departure */}
-        <motion.button
-          onClick={() => navigate("/quiet-tending")}
-          className="font-body text-sm text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-500"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2.5 }}
-        >
-          Rest now
-        </motion.button>
+        <AnimatePresence mode="wait">
+          {!settling ? (
+            <motion.div
+              key="buttons"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ delay: 1, duration: 0.6 }}
+            >
+              {/* Habitat buttons */}
+              <div className="space-y-6 mb-8">
+                <button
+                  onClick={handleHabitat}
+                  className="w-full bg-grove-sage text-white font-body text-base px-8 py-4 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+                  style={{ borderRadius: "3rem" }}
+                >
+                  ⌇ Google Drive
+                </button>
+                <button
+                  onClick={handleHabitat}
+                  className="w-full bg-grove-sage text-white font-body text-base px-8 py-4 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+                  style={{ borderRadius: "3rem" }}
+                >
+                  ⌇ OneDrive
+                </button>
+              </div>
+
+              {/* Reassurance */}
+              <p
+                className="font-body text-[11px] mb-8"
+                style={{ color: "hsl(var(--grove-amber))" }}
+              >
+                Nothing will be moved or deleted. Ever.
+              </p>
+
+              {/* Back link */}
+              <button
+                onClick={() => navigate("/first-grove")}
+                className="font-body text-[11px] transition-opacity duration-300 hover:opacity-70"
+                style={{ color: "hsl(var(--grove-amber))" }}
+              >
+                ← choose a different posture
+              </button>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="settling"
+              className="py-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <motion.span
+                className="text-4xl block mb-6"
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: "spring", stiffness: 100, damping: 12 }}
+              >
+                🌱
+              </motion.span>
+              <p className="font-display text-xl italic text-foreground/70">
+                GroveKeeper is settling in…
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </div>
   );
