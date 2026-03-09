@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 const FirstGrove = () => {
   const navigate = useNavigate();
 
-  const handleTend = () => {
-    navigate("/guided-tending/arrival");
-  };
 
   return (
     <div className="min-h-screen bg-grove-mist flex items-center justify-center px-6">
@@ -36,25 +33,31 @@ const FirstGrove = () => {
         </motion.p>
 
         <motion.div
-          className="space-y-4 mb-8"
+          className="space-y-6 mb-8"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.8 }}
         >
-          <button
-            onClick={handleTend}
-            className="w-full bg-grove-sage text-white font-body text-base px-8 py-4 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
-            style={{ borderRadius: "3rem" }}
-          >
-            ⌇ Tend my Google Drive
-          </button>
-          <button
-            onClick={handleTend}
-            className="w-full bg-grove-sage text-white font-body text-base px-8 py-4 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
-            style={{ borderRadius: "3rem" }}
-          >
-            ⌇ Tend my OneDrive
-          </button>
+          <div className="text-center">
+            <button
+              onClick={() => navigate("/guided-tending/arrival")}
+              className="w-full bg-grove-sage text-white font-body text-base px-8 py-4 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+              style={{ borderRadius: "3rem" }}
+            >
+              ⌇ Guided Tending
+            </button>
+            <p className="font-body text-sm text-muted-foreground mt-2">You'll tend alongside me.</p>
+          </div>
+          <div className="text-center">
+            <button
+              onClick={() => navigate("/quiet-tending/arrival")}
+              className="w-full bg-grove-sage text-white font-body text-base px-8 py-4 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+              style={{ borderRadius: "3rem" }}
+            >
+              ⌇ Quiet Tending
+            </button>
+            <p className="font-body text-sm text-muted-foreground mt-2">I'll tend while you rest.</p>
+          </div>
         </motion.div>
 
         <motion.p
