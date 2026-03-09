@@ -18,6 +18,7 @@ interface BranchState {
 export const BranchReply = () => {
   const [activeBranch, setActiveBranch] = useState<BranchState | null>(null);
   const [showBubble, setShowBubble] = useState(false);
+  const [dashOffset, setDashOffset] = useState<number | null>(null);
 
   useEffect(() => {
     const handleEngaged = (e: Event) => {
