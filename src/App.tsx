@@ -10,6 +10,7 @@ import GuidedTendingSession from "./pages/GuidedTendingSession";
 import QuietArrival from "./pages/QuietArrival";
 import StewardshipOnboarding from "./pages/StewardshipOnboarding";
 import NotFound from "./pages/NotFound";
+import FallenLeaves from "./pages/FallenLeaves";
 
 const queryClient = new QueryClient();
 
