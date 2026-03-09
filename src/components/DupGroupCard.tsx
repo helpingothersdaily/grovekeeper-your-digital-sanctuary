@@ -27,6 +27,15 @@ export default function DupGroupCard({ group, layer }: Props) {
     setResolved(true)
   }
 
+  const undoResolution = () => {
+    setResolved(false)
+    setResolveType(null)
+    setSilenced([])
+    setProposed(false)
+    setCooloff(false)
+    toast({ title: 'Action undone', description: 'Everything restored to its previous state' })
+  }
+
   const acknowledge = () => {
     setExpanded(true)
     setSilenced(group.files.filter(f => !f.canonical).map(f => f.name))
