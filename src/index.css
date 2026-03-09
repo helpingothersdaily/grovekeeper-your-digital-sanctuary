@@ -91,4 +91,23 @@
   .bg-grove-clearing {
     background: radial-gradient(ellipse at center, hsl(var(--grove-clearing)), hsl(var(--background)));
   }
+  .grove-pebble {
+    border-radius: 3rem;
+  }
+  .grove-glass {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .grove-pile-card {
+    border-radius: 3rem;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 300ms ease, box-shadow 300ms ease;
+  }
+  .grove-pile-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(74, 94, 74, 0.15);
+  }
 }
