@@ -23,6 +23,7 @@ const Navbar = () => {
           <a href="#tending" className="hover:text-foreground transition-colors">Tending Modes</a>
           <a href="#branchreply" className="hover:text-foreground transition-colors">BranchReply</a>
           <a href="#grove-report" className="hover:text-foreground transition-colors">Grove Report</a>
+          <button onClick={() => navigate("/fallen-leaves")} className="hover:text-foreground transition-colors">Fallen Leaves</button>
         </div>
         <button onClick={() => navigate("/first-grove")} className="bg-primary text-primary-foreground font-body text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
           Begin Tending
