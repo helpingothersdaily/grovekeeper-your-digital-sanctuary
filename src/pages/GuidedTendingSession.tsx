@@ -195,6 +195,7 @@ const GuidedTendingSession = () => {
               <ClusterLabel cluster={cluster} index={clusterIndex} />
               {order.map((originalIndex, zOrder) => {
                 const card = cluster.cards[originalIndex];
+                const isTop = zOrder === order.length - 1;
                 return (
                   <MemoryCard
                     key={card.id}
@@ -203,6 +204,7 @@ const GuidedTendingSession = () => {
                     cardIndex={originalIndex}
                     clusterPosition={cluster.position}
                     zIndex={zOrder}
+                    isTop={isTop}
                     onClick={() => shuffleCluster(cluster.id, originalIndex)}
                   />
                 );
