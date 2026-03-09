@@ -27,6 +27,15 @@ export default function DupGroupCard({ group, layer }: Props) {
     setResolved(true)
   }
 
+  const undoResolution = () => {
+    setResolved(false)
+    setResolveType(null)
+    setSilenced([])
+    setProposed(false)
+    setCooloff(false)
+    toast({ title: 'Action undone', description: 'Everything restored to its previous state' })
+  }
+
   const acknowledge = () => {
     setExpanded(true)
     setSilenced(group.files.filter(f => !f.canonical).map(f => f.name))
@@ -144,6 +153,19 @@ export default function DupGroupCard({ group, layer }: Props) {
               >
                 🍃
               </motion.span>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex justify-center"
+            >
+              <button
+                onClick={undoResolution}
+                className="font-body text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+              >
+                undo
+              </button>
             </motion.div>
           </motion.div>
         ) : (
