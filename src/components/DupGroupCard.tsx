@@ -154,6 +154,19 @@ export default function DupGroupCard({ group, layer }: Props) {
                 🍃
               </motion.span>
             </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex justify-center"
+            >
+              <button
+                onClick={undoResolution}
+                className="font-body text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+              >
+                undo
+              </button>
+            </motion.div>
           </motion.div>
         ) : (
           <motion.div
