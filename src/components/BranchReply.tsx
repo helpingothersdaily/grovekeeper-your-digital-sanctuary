@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { calcVinePath, calcBubblePosition, calcVineLength, VinePoint } from '@/lib/vineUtils';
 
 export const dispatchBranchEngaged = (branchId: string, originRect: DOMRect) => {
   window.dispatchEvent(new CustomEvent('BranchEngaged', {
@@ -11,7 +12,7 @@ export const dispatchBranchEngaged = (branchId: string, originRect: DOMRect) => 
 interface BranchState {
   branchId: string;
   originRect: DOMRect;
-  targetPos: { x: number, y: number };
+  targetPos: VinePoint;
 }
 
 export const BranchReply = () => {
@@ -23,14 +24,17 @@ export const BranchReply = () => {
       const customEvent = e as CustomEvent;
       const { branchId, originRect } = customEvent.detail;
       
-      // Target center of screen for the bubble
-      const targetX = window.innerWidth / 2;
-      const targetY = window.innerHeight / 2;
+      // Calculate bubble position using utility
+      const targetPos = calcBubblePosition(
+        originRect,
+        window.innerWidth,
+        window.innerHeight
+      );
       
       setActiveBranch({
         branchId,
         originRect,
-        targetPos: { x: targetX, y: targetY }
+        targetPos
       });
       setShowBubble(false);
 
@@ -64,10 +68,13 @@ export const BranchReply = () => {
 
   const { originRect, targetPos } = activeBranch;
   
-  const startX = originRect.left + originRect.width / 2;
-  const startY = originRect.top + originRect.height / 2;
+  const origin: VinePoint = {
+    x: originRect.left + originRect.width / 2,
+    y: originRect.top + originRect.height / 2
+  };
   
-  const pathD = `M ${startX},${startY} C ${startX},${startY + 120} ${targetPos.x},${targetPos.y - 120} ${targetPos.x},${targetPos.y}`;
+  const pathD = calcVinePath(origin, targetPos);
+  const vineLength = calcVineLength(origin, targetPos);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
@@ -77,8 +84,10 @@ export const BranchReply = () => {
           stroke="hsl(var(--grove-sage))"
           strokeWidth="2"
           fill="none"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
+          strokeDasharray={vineLength}
+          strokeDashoffset={vineLength}
+          initial={{ strokeDashoffset: vineLength }}
+          animate={{ strokeDashoffset: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
         />
       </svg>
