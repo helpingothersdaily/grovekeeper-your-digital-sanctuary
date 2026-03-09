@@ -98,6 +98,18 @@ const MemoryCard = ({
       <p className="font-display text-xs text-foreground/70 text-center leading-relaxed">
         {card.caption}
       </p>
+
+      {/* Branch Button */}
+      <button 
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatchBranchEngaged(card.id, e.currentTarget.getBoundingClientRect());
+        }}
+        className="absolute bottom-2 left-2 flex items-center gap-1 text-[11px] font-display text-[hsl(var(--grove-sage))] hover:opacity-80 transition-opacity z-10"
+      >
+        <Leaf size={10} />
+        branch
+      </button>
     </motion.div>
   );
 };
