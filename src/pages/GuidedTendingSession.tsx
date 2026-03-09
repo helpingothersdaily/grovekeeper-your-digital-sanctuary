@@ -60,6 +60,7 @@ const MemoryCard = ({
   cardIndex,
   clusterPosition,
   zIndex,
+  isTop,
   onClick,
 }: {
   card: any;
@@ -67,14 +68,15 @@ const MemoryCard = ({
   cardIndex: number;
   clusterPosition: { x: string; y: string };
   zIndex: number;
+  isTop: boolean;
   onClick: () => void;
 }) => {
   const offset = cardOffsets[card.id];
 
   return (
     <motion.div
-      layout
-      className="absolute grove-pile-card w-48 h-32 p-4 cursor-pointer"
+      layout={!isTop}
+      className={`absolute grove-pile-card w-48 h-32 p-4 ${isTop ? "cursor-pointer" : "pointer-events-none"}`}
       style={{
         left: clusterPosition.x,
         top: clusterPosition.y,
@@ -95,12 +97,12 @@ const MemoryCard = ({
         delay: clusterIndex * 0.3 + cardIndex * 0.1,
         layout: { type: "spring", stiffness: 200, damping: 25 },
       }}
-      whileHover={{
+      whileHover={isTop ? {
         scale: 1.02,
         rotate: card.rotation + (card.rotation > 0 ? 2 : -2),
         transition: { type: "spring", stiffness: 300, damping: 25 },
-      }}
-      onClick={onClick}
+      } : undefined}
+      onClick={isTop ? onClick : undefined}
     >
       <div className="absolute top-2 right-2 text-xs text-grove-bark/40">⌇</div>
 
