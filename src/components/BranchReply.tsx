@@ -62,6 +62,23 @@ export const BranchReply = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (activeBranch) {
+      const origin: VinePoint = {
+        x: activeBranch.originRect.left + activeBranch.originRect.width / 2,
+        y: activeBranch.originRect.top + activeBranch.originRect.height / 2
+      };
+      const length = calcVineLength(origin, activeBranch.targetPos);
+      setDashOffset(length);
+      
+      const timer = setTimeout(() => {
+        setDashOffset(0);
+      }, 50);
+
+      return () => clearTimeout(timer);
+    }
+  }, [activeBranch]);
+
   const handleClose = () => {
     window.dispatchEvent(new CustomEvent('BranchReleased'));
   };
