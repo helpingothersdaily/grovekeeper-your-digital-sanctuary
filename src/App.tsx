@@ -27,6 +27,7 @@ const App = () => (
           <Route path="/guided-tending/arrival" element={<GuidedArrival />} />
           <Route path="/guided-tending/session" element={<GuidedTendingSession />} />
           <Route path="/quiet-tending/arrival" element={<QuietArrival />} />
+          <Route path="/stewardship" element={<StewardshipOnboarding />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
