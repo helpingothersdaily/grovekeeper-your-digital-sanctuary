@@ -50,6 +50,7 @@ export const BranchReply = () => {
     const handleReleased = () => {
       setActiveBranch(null);
       setShowBubble(false);
+      setDashOffset(null);
     };
 
     window.addEventListener('BranchEngaged', handleEngaged);
