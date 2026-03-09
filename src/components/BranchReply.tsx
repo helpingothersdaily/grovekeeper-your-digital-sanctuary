@@ -18,6 +18,7 @@ interface BranchState {
 export const BranchReply = () => {
   const [activeBranch, setActiveBranch] = useState<BranchState | null>(null);
   const [showBubble, setShowBubble] = useState(false);
+  const [dashOffset, setDashOffset] = useState<number | null>(null);
 
   useEffect(() => {
     const handleEngaged = (e: Event) => {
@@ -49,6 +50,7 @@ export const BranchReply = () => {
     const handleReleased = () => {
       setActiveBranch(null);
       setShowBubble(false);
+      setDashOffset(null);
     };
 
     window.addEventListener('BranchEngaged', handleEngaged);
@@ -59,6 +61,23 @@ export const BranchReply = () => {
       window.removeEventListener('BranchReleased', handleReleased);
     };
   }, []);
+
+  useEffect(() => {
+    if (activeBranch) {
+      const origin: VinePoint = {
+        x: activeBranch.originRect.left + activeBranch.originRect.width / 2,
+        y: activeBranch.originRect.top + activeBranch.originRect.height / 2
+      };
+      const length = calcVineLength(origin, activeBranch.targetPos);
+      setDashOffset(length);
+      
+      const timer = setTimeout(() => {
+        setDashOffset(0);
+      }, 50);
+
+      return () => clearTimeout(timer);
+    }
+  }, [activeBranch]);
 
   const handleClose = () => {
     window.dispatchEvent(new CustomEvent('BranchReleased'));
@@ -79,16 +98,14 @@ export const BranchReply = () => {
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
       <svg className="absolute inset-0 w-full h-full pointer-events-none">
-        <motion.path
+        <path
           d={pathD}
           stroke="hsl(var(--grove-sage))"
           strokeWidth="2"
           fill="none"
           strokeDasharray={vineLength}
-          strokeDashoffset={vineLength}
-          initial={{ strokeDashoffset: vineLength }}
-          animate={{ strokeDashoffset: 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          strokeDashoffset={dashOffset !== null ? dashOffset : vineLength}
+          style={{ transition: 'stroke-dashoffset 600ms ease-in-out' }}
         />
       </svg>
 
