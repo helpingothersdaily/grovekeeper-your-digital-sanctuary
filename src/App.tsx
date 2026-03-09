@@ -9,6 +9,7 @@ import HowItTends from "./pages/HowItTends";
 import GuidedArrival from "./pages/GuidedArrival";
 import GuidedTendingSession from "./pages/GuidedTendingSession";
 import QuietArrival from "./pages/QuietArrival";
+import StewardshipOnboarding from "./pages/StewardshipOnboarding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/guided-tending/arrival" element={<GuidedArrival />} />
           <Route path="/guided-tending/session" element={<GuidedTendingSession />} />
           <Route path="/quiet-tending/arrival" element={<QuietArrival />} />
+          <Route path="/stewardship" element={<StewardshipOnboarding />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
