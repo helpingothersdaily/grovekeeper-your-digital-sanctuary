@@ -98,16 +98,14 @@ export const BranchReply = () => {
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
       <svg className="absolute inset-0 w-full h-full pointer-events-none">
-        <motion.path
+        <path
           d={pathD}
           stroke="hsl(var(--grove-sage))"
           strokeWidth="2"
           fill="none"
           strokeDasharray={vineLength}
-          strokeDashoffset={vineLength}
-          initial={{ strokeDashoffset: vineLength }}
-          animate={{ strokeDashoffset: 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          strokeDashoffset={dashOffset !== null ? dashOffset : vineLength}
+          style={{ transition: 'stroke-dashoffset 600ms ease-in-out' }}
         />
       </svg>
 
