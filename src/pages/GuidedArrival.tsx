@@ -1,116 +1,92 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import groveLogo from "@/assets/grove-logo.png";
-
-const FloatingMote = ({
-  delay,
-  x,
-  y,
-  size,
-  opacity,
-}: {
-  delay: number;
-  x: string;
-  y: string;
-  size: number;
-  opacity: number;
-}) => (
-  <motion.div
-    className="absolute rounded-full bg-grove-sage/[var(--mote-opacity)]"
-    style={
-      {
-        left: x,
-        top: y,
-        width: size,
-        height: size,
-        "--mote-opacity": opacity,
-      } as React.CSSProperties
-    }
-    animate={{
-      y: [0, -8, 0],
-      opacity: [opacity, opacity * 1.4, opacity],
-    }}
-    transition={{
-      duration: 8 + delay * 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-      delay,
-    }}
-  />
-);
 
 const GuidedArrival = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-grove-clearing flex items-center justify-center relative overflow-hidden">
-      {/* Atmosphere */}
+    <div className="min-h-screen bg-grove-mist flex items-center justify-center px-6">
       <motion.div
-        className="absolute inset-0 pointer-events-none"
-        animate={{
-          background: [
-            "radial-gradient(ellipse 500px 350px at 45% 40%, hsl(var(--grove-sage) / 0.06), transparent)",
-            "radial-gradient(ellipse 500px 350px at 50% 50%, hsl(var(--grove-sage) / 0.08), transparent)",
-            "radial-gradient(ellipse 500px 350px at 45% 40%, hsl(var(--grove-sage) / 0.06), transparent)",
-          ],
-        }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <FloatingMote delay={0} x="12%" y="25%" size={60} opacity={0.04} />
-      <FloatingMote delay={1.8} x="78%" y="18%" size={44} opacity={0.05} />
-      <FloatingMote delay={3.2} x="65%" y="65%" size={52} opacity={0.03} />
-      <FloatingMote delay={0.5} x="25%" y="72%" size={36} opacity={0.05} />
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2, ease: "easeOut" }}
-        className="relative z-10 max-w-md w-full mx-6 text-center"
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="grove-glass w-full max-w-lg p-12 text-center"
+        style={{ borderRadius: "3rem" }}
       >
-        {/* Logo */}
-        <motion.img
-          src={groveLogo}
-          alt="GroveKeeper"
-          className="w-10 h-10 mx-auto mb-14 opacity-60"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 0.6, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-        />
-
-        {/* Acknowledgment */}
-        <motion.h1
-          className="font-display text-3xl md:text-[2.5rem] font-medium text-foreground leading-snug mb-6"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
+        {/* Posture label */}
+        <motion.p
+          className="font-body text-[11px] tracking-wide mb-6"
+          style={{ color: "hsl(var(--grove-sage))" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
         >
-          You're here with your grove.
+          Guided Tending
+        </motion.p>
+
+        {/* Heading */}
+        <motion.h1
+          className="font-display text-4xl md:text-5xl font-medium text-foreground mb-4"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+        >
+          Where shall we begin?
         </motion.h1>
 
-        {/* Reassurance */}
-        <motion.div
-          className="space-y-3 mb-20"
+        {/* Subtext */}
+        <motion.p
+          className="font-body text-muted-foreground text-base leading-relaxed mb-10 max-w-sm mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
+          transition={{ delay: 0.7, duration: 0.8 }}
         >
-          <p className="font-body text-muted-foreground text-base leading-relaxed">
-            Nothing will move until you're ready.
-          </p>
-          <p className="font-body text-muted-foreground/60 text-base leading-relaxed">
-            Take a moment. We'll begin together.
-          </p>
+          Choose a habitat for us to tend together. You'll guide each decision.
+        </motion.p>
+
+        {/* Habitat buttons */}
+        <motion.div
+          className="space-y-6 mb-8"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
+        >
+          <div className="text-center">
+            <button
+              onClick={() => navigate("/guided-tending/session")}
+              className="w-full bg-grove-sage text-white font-body text-base px-8 py-4 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+              style={{ borderRadius: "3rem" }}
+            >
+              ⌇ Google Drive
+            </button>
+            <p className="font-body text-[11px] text-muted-foreground mt-2">
+              Maps your Drive as a living grove
+            </p>
+          </div>
+          <div className="text-center">
+            <button
+              onClick={() => navigate("/guided-tending/session")}
+              className="w-full bg-grove-sage text-white font-body text-base px-8 py-4 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+              style={{ borderRadius: "3rem" }}
+            >
+              ⌇ OneDrive
+            </button>
+            <p className="font-body text-[11px] text-muted-foreground mt-2">
+              Maps your OneDrive as a living grove
+            </p>
+          </div>
         </motion.div>
 
-        {/* Gentle continue */}
+        {/* Back link */}
         <motion.button
-          onClick={() => navigate("/guided-tending/session")}
-          className="font-body text-sm text-muted-foreground/70 hover:text-muted-foreground transition-colors duration-500 cursor-pointer"
+          onClick={() => navigate("/first-grove")}
+          className="font-body text-[11px] transition-opacity duration-300 hover:opacity-70"
+          style={{ color: "hsl(var(--grove-amber))" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2.5 }}
+          transition={{ delay: 1.3, duration: 0.8 }}
         >
-          When you're ready
+          ← choose a different posture
         </motion.button>
       </motion.div>
     </div>
