@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import BranchReply, { dispatchBranchEngaged } from "@/components/BranchReply";
+import { Leaf } from "lucide-react";
 
 // Mock memory data with picsum photos
 const memoryClusters = [
