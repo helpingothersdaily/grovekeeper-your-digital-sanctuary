@@ -110,4 +110,27 @@
     transform: translateY(-8px) scale(1.03);
     box-shadow: 0 20px 40px rgba(74, 94, 74, 0.15);
   }
+  .clearing-card {
+    border-radius: 2.5rem;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px;
+    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms ease, opacity 300ms ease;
+  }
+  .clearing-card:hover {
+    transform: rotate(2deg) scale(1.04) !important;
+    box-shadow: 0 16px 32px rgba(74, 94, 74, 0.18);
+    z-index: 10 !important;
+  }
+}
+
+@keyframes wavePulse {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+
+.animate-wave-pulse {
+  animation: wavePulse 1.2s ease-in-out infinite;
+  transform-origin: bottom;
 }
